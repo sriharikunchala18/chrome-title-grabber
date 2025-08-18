@@ -1,43 +1,35 @@
-const express = require('express');
-const cors = require('cors');
-const sequelize = require('./database.js');
-const Profile = require('./models/profile.js');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const db = require("./database");
+const Profile = require("./models/profile");
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.send('LinkedIn Scraper API Running ✅'));
-
-app.post('/api/profiles', async (req, res) => {
-    try {
-        const profile = await Profile.create(req.body);
-        res.status(201).json(profile);
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({ error: err.message });
-    }
+// ✅ Add new profile
+app.post("/api/profiles", async (req, res) => {
+  try {
+    const profile = await Profile.create(req.body);
+    res.json(profile);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.get('/api/profiles', async (req, res) => {
-    try {
-        const profiles = await Profile.findAll();
-        res.json(profiles);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
+// ✅ Fetch all profiles
+app.get("/api/profiles", async (req, res) => {
+  try {
+    const profiles = await Profile.findAll();
+    res.json(profiles);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-(async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Database connected successfully');
-        await sequelize.sync({ alter: true });
-        console.log('✅ Database synced successfully');
-        app.listen(5000, () => console.log('🚀 Server running on http://localhost:5000'));
-    } catch (err) {
-        console.error('❌ Database error:', err);
-        process.exit(1);
-    }
-})();
+const PORT = 5000;
+app.listen(PORT, async () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+  await db.sync({ alter: true });
+});

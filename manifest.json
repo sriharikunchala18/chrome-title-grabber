@@ -1,15 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Title Grabber",
-  "version": "1.0",
-  "description": "Gets the title of the current tab and shows it in the popup.",
-  "permissions": ["activeTab", "scripting"],
+  "name": "LinkedIn Auto Liker & Commenter",
+  "version": "1.0.1",
+  "description": "Randomly like and comment on LinkedIn feed posts (default comment: CFBR).",
+  "permissions": ["activeTab", "tabs", "scripting"],
+  "host_permissions": ["https://www.linkedin.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   }
 }
